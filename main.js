@@ -1,9 +1,13 @@
 function main(){
-  const button = document.getElementById("add");
-  
-  button.addEventListener("click", function(){  
+  const addButton = document.getElementById("add");
+  const todoesDiv = document.getElementById("todoes");
+
+  addButton.addEventListener("click", function(){  
     const todo = document.getElementById("todo-text").value;
-    console.log(todo);
+    
+    const p = document.createElement("p");
+    p.textContent = todo;
+    todoesDiv.appendChild(p);
   });
 }
 
