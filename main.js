@@ -1,8 +1,9 @@
 function main(){
   const button = document.getElementById("add");
   
-  button.addEventListener("click", function(){
-    console.log("Holo!");
+  button.addEventListener("click", function(){  
+    const todo = document.getElementById("todo-text").value;
+    console.log(todo);
   });
 }
 
