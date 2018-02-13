@@ -23,7 +23,7 @@ function main(){
       const x = document.createElement("a");
       
       x.textContent = "x";
-      a.textContent = todo + " ";
+      a.textContent = todo;
       a.classList.add("undone");
     
       todoDiv.appendChild(a);

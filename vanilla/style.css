@@ -4,4 +4,15 @@ body {
 
 .done {
   text-decoration: line-through;
+  color: gray;
+  font-style: italic;
+}
+
+#filters {
+  margin-top: 5px;
+}
+
+#todoes {
+  height: 300px;
+  overflow: auto;
 }
