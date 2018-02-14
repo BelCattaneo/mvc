@@ -1,3 +1,8 @@
+/*Agregar texto que indique que no hay del filtro seleccionado
+ *Agregar forma ue indique que se esta filtrando.
+ *Agregar Cantidad de elementos que se muestran.
+ */ 
+
 function listen(element, eventName, callback){
   element.addEventListener(eventName, callback);
 }
