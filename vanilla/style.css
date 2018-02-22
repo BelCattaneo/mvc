@@ -16,3 +16,8 @@ body {
   height: 300px;
   overflow: auto;
 }
+
+.selected-filter {
+  background-color: white;
+  color: red;
+}
