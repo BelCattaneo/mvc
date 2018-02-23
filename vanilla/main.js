@@ -1,8 +1,3 @@
-/*
- *
- *Agregar Cantidad de elementos que se muestran.
- */ 
-
 function listen(element, eventName, callback){
   element.addEventListener(eventName, callback);
 }
@@ -17,14 +12,6 @@ function unselectFilters(){
   document.getElementById("all-filter").classList.remove("selected-filter");
 }
 
-function hideNoItemsMessage(){
-  const noItemsMessage =  document.getElementById("no-items-message");
-  var isNoItemsMessageShown =  noItemsMessage.classList.contains("hidden");
-  if(isNoItemsMessageShown){
-    document.getElementById("no-items-message").classList.add("hidden");
-  }
-}
-
 
 
 
@@ -37,7 +24,9 @@ function main(){
   const input = document.getElementById("todo-text");
   const noItemsMessage = document.getElementById("no-items-message");
   const filtersDiv = document.getElementById("filters");
+  const itemCount = document.getElementById("item-count");
 
+  var shownItems = 0;
 
   function addButtonOnClick(){  
     const todo = input.value;
@@ -62,9 +51,8 @@ function main(){
   
   function todoesDivOnClick(event){
     if(event.target.innerHTML === "x"){
-      return event.target.parentNode.remove();  
+      event.target.parentNode.remove();  
     }
-
     if(event.target.nodeName === "A"){
       const a = event.target;
       if(isDone(a)){
@@ -87,6 +75,7 @@ function main(){
       currentFilter.classList.remove("selected-filter");
     }
     selectedFilter.classList.add("selected-filter");
+    filterClick(selectedFilter.id);
   }
 
   function showTodoes(){
@@ -95,44 +84,49 @@ function main(){
     }
   }
 
+  filterClick = function(filterId){
+    switch (filterId) {
+      case "done-filter":
+        doneFilterOnClick();
+        break;
+      
+      case "undone-filter":
+        undoneFilterOnClick()
+        break;
+
+      case "all-filter":
+       allFilterOnClick
+        break;
+    }
+  }
+
   function doneFilterOnClick(){
     showTodoes();
-    hideNoItemsMessage()
-
+    
     const doneTodoes = todoesDiv.getElementsByClassName("undone");
     if (doneTodoes.length) {
       for (var a = 0; a < doneTodoes.length; a++) {
         doneTodoes[a].parentNode.classList.add("hidden");
       }
-    } else {
-      noItemsMessage.classList.remove("hidden");
-    }
+    } 
+    refreshFilter();
   }
   
   function undoneFilterOnClick(){
     showTodoes();
-    hideNoItemsMessage()
-
+    
     const undoneTodoes = todoesDiv.getElementsByClassName("done");
     if (undoneTodoes.length) {
       for (var a = 0; a < undoneTodoes.length; a++) {
         undoneTodoes[a].parentNode.classList.add("hidden");
-        
       }
-    } else {
-      document.getElementById("no-items-message").classList.remove("hidden");
-    }
+    } 
+    refreshFilter();
   }
   
   function allFilterOnClick(){
     showTodoes();
-    hideNoItemsMessage()
-
-    const doneTodoes = todoesDiv.getElementsByClassName("done");
-    const undoneTodoes = todoesDiv.getElementsByClassName("undone");
-    if (doneTodoes.length === 0 && undoneTodoes.length === 0) {
-      noItemsMessage.classList.add("hidden");
-    }
+    refreshFilter()
   }
 
   function inputEnter(event){
@@ -142,10 +136,29 @@ function main(){
   }
 
   function refreshFilter(){
-    var currentFilter = document.getElementsByClassName("selected-filter")
+    var currentFilter = document.getElementsByClassName("selected-filter");
     if(currentFilter.length != 0){
       currentFilter[0].click();
     }
+    shownItemsCount();
+  }
+
+  function shownItemsCount(){
+    shownItems = 0;
+    itemCount.children[0].innerHTML = "";
+    for (let i = 0; i < todoesDiv.childElementCount; i++) {
+      if (!todoesDiv.children[i].classList.contains("hidden")) {
+        shownItems++;
+      }
+    }
+    if (shownItems === 0) {
+      noItemsMessage.classList.remove("hidden");
+    } else {
+      if (!noItemsMessage.classList.contains("hidden")) {
+        noItemsMessage.classList.add("hidden");
+      }
+    }
+    itemCount.children[0].innerHTML = shownItems;
   }
 
   listen(addButton, "click", addButtonOnClick);
