@@ -1,5 +1,5 @@
 /*
- *Hacer que el mensaje de que no hay items se vaya si se agregan items
+ *
  *Agregar Cantidad de elementos que se muestran.
  */ 
 
@@ -18,8 +18,14 @@ function unselectFilters(){
 }
 
 function hideNoItemsMessage(){
-  document.getElementById("no-items-message").setAttribute("hidden", true);
+  const noItemsMessage =  document.getElementById("no-items-message");
+  var isNoItemsMessageShown =  noItemsMessage.classList.contains("hidden");
+  if(isNoItemsMessageShown){
+    document.getElementById("no-items-message").classList.add("hidden");
+  }
 }
+
+
 
 
 function main(){
@@ -29,9 +35,12 @@ function main(){
   const undoneFilter = document.getElementById("undone-filter");
   const allFilter = document.getElementById("all-filter");
   const input = document.getElementById("todo-text");
-  
+  const noItemsMessage = document.getElementById("no-items-message");
+  const filtersDiv = document.getElementById("filters");
+
+
   function addButtonOnClick(){  
-    const todo = document.getElementById("todo-text").value;
+    const todo = input.value;
     if (todo != "") {
       const todoDiv = document.createElement("div");
       const a = document.createElement("a");
@@ -45,8 +54,10 @@ function main(){
       todoDiv.appendChild(x);
       todoesDiv.appendChild(todoDiv);
     
-      document.getElementById("todo-text").value = "";
+      input.value = "";
     }
+
+    refreshFilter();
   } 
   
   function todoesDivOnClick(event){
@@ -64,57 +75,63 @@ function main(){
         a.classList.remove("undone");
       }
     }
+
+    refreshFilter();
+
   } 
+
+  function filtersDivOnClick(event){
+    var currentFilter = document.getElementsByClassName("selected-filter")[0];
+    var selectedFilter = event.target
+    if(currentFilter){
+      currentFilter.classList.remove("selected-filter");
+    }
+    selectedFilter.classList.add("selected-filter");
+  }
 
   function showTodoes(){
     for (var a = 0; a < todoesDiv.children.length; a++) {
-      todoesDiv.children[a].removeAttribute("hidden", true);
+      todoesDiv.children[a].classList.remove("hidden");
     }
   }
 
   function doneFilterOnClick(){
     showTodoes();
-    unselectFilters();
-    document.getElementById("done-filter").classList.add("selected-filter");
     hideNoItemsMessage()
 
     const doneTodoes = todoesDiv.getElementsByClassName("undone");
     if (doneTodoes.length) {
       for (var a = 0; a < doneTodoes.length; a++) {
-        doneTodoes[a].parentNode.setAttribute("hidden", true);
+        doneTodoes[a].parentNode.classList.add("hidden");
       }
     } else {
-      document.getElementById("no-items-message").removeAttribute("hidden", true);
+      noItemsMessage.classList.remove("hidden");
     }
   }
   
   function undoneFilterOnClick(){
     showTodoes();
-    unselectFilters();
-    document.getElementById("undone-filter").classList.add("selected-filter");
     hideNoItemsMessage()
 
     const undoneTodoes = todoesDiv.getElementsByClassName("done");
     if (undoneTodoes.length) {
       for (var a = 0; a < undoneTodoes.length; a++) {
-        undoneTodoes[a].parentNode.setAttribute("hidden", true);
+        undoneTodoes[a].parentNode.classList.add("hidden");
         
       }
     } else {
-      document.getElementById("no-items-message").removeAttribute("hidden", true);
+      document.getElementById("no-items-message").classList.remove("hidden");
     }
   }
   
   function allFilterOnClick(){
     showTodoes();
-    unselectFilters();
-    document.getElementById("all-filter").classList.add("selected-filter");
     hideNoItemsMessage()
 
-    const donetodoes = todoesDiv.getElementsByClassName("done");
-    const undonetodoes = todoesDiv.getElementsByClassName("undone");
+    const doneTodoes = todoesDiv.getElementsByClassName("done");
+    const undoneTodoes = todoesDiv.getElementsByClassName("undone");
     if (doneTodoes.length === 0 && undoneTodoes.length === 0) {
-      document.getElementById("no-items-message").removeAttribute("hidden", true);
+      noItemsMessage.classList.add("hidden");
     }
   }
 
@@ -124,12 +141,20 @@ function main(){
     }
   }
 
+  function refreshFilter(){
+    var currentFilter = document.getElementsByClassName("selected-filter")
+    if(currentFilter.length != 0){
+      currentFilter[0].click();
+    }
+  }
+
   listen(addButton, "click", addButtonOnClick);
   listen(todoesDiv, "click", todoesDivOnClick);
   listen(doneFilter, "click", doneFilterOnClick);  
   listen(undoneFilter, "click", undoneFilterOnClick);
   listen(allFilter, "click", allFilterOnClick);
   listen(input, "keyup", inputEnter);
+  listen(filtersDiv, "click", filtersDivOnClick);
 }
 
 
