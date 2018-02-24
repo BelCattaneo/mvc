@@ -1,40 +1,5 @@
-function listen(element, eventName, callback){
-  element.addEventListener(eventName, callback);
-}
-
-function isDone(element){
-  return element.classList.contains("done");
-}
-
-function hide(element){
-  element.classList.add("hidden");
-}
-
-function show(element){
-  element.classList.remove("hidden");
-}
-
-function hasClass(element, className){
-  return element.classList.contains(className);
-}
-
-function addClass(element, className){
-  element.classList.add(className);
-}
-
-function removeClass(element, className){
-  element.classList.remove(className);
-}
-
-function $(id){
-  return document.getElementById(id);
-}  
-
-
-function main(){
-  const addButton = $("add");
+function todoListView(){
   const todoesDiv = $("todoes");
-  const input = $("todo-text");
   const noItemsMessage = $("no-items-message");
   const filtersDiv = $("filters");
   const itemCount = $("item-count");
@@ -43,34 +8,6 @@ function main(){
   var shownItems = 0;
   var totalItems = 0;
 
-  function addButtonOnClick(){  
-    const todo = input.value;
-    if (todo != "") {
-      const todoDiv = document.createElement("div");
-      const a = document.createElement("a");
-      const x = document.createElement("a");
-      
-      x.textContent = "x";
-      a.textContent = todo;
-
-      addClass(todoDiv, "todo-item");
-      addClass(a, "undone");
-      addClass(x, "cruz");
-
-      todoDiv.appendChild(a);
-      todoDiv.appendChild(x);
-      todoesDiv.appendChild(todoDiv);
-    
-      input.value = "";
-    }
-    refreshFilter();
-  }
-
-  function inputEnter(event){
-    if (event.keyCode === 13) {
-      addButtonOnClick();
-    }
-  }
   
   function todoesDivOnClick(event){
     if(hasClass(event.target, "cruz")){
@@ -86,7 +23,7 @@ function main(){
         removeClass(a, "undone");
       }
     }
-    refreshFilter();
+    refreshTodoesList();
   } 
 
   function filtersDivOnClick(event){
@@ -101,13 +38,13 @@ function main(){
       }
       //Sets the selected-filter class
       addClass(clickedFilter, "selected-filter");
-      filterClick(clickedFilter.id);
+      applyFilter(clickedFilter.id);
     }
   }
 
-  function filterClick(filterId){
+  function applyFilter(filterId){
     selectedFilter = filterId;
-    applyFilter(filterId.split("-")[0]);
+    filterTodoes(filterId.split("-")[0]);
   }
   
   function hideTodoes(){
@@ -131,15 +68,15 @@ function main(){
     }
   }
   
-  function applyFilter(todoStatus){
+  function filterTodoes(todoStatus){
     hideTodoes();
     showTodoes(todoStatus);
     shownItemsCount(todoStatus);
   }
 
-  function refreshFilter(){
+  function refreshTodoesList(){
     if(selectedFilter){
-      filterClick(selectedFilter);
+      applyFilter(selectedFilter);
     } else {
       shownItemsCount("all");
     }
@@ -148,6 +85,7 @@ function main(){
   function countItems(classItems){
     shownItems = 0;
     totalItems = todoesDiv.childElementCount;
+
     if (classItems  === "all") {
       shownItems = totalItems;
     } else {
@@ -165,21 +103,16 @@ function main(){
     
     if (shownItems === 0) {
       show(noItemsMessage);
-    
     } else {
       if (!hasClass(noItemsMessage, "hidden")) {
         hide(noItemsMessage);
       }
     }
-
     itemCount.children[0].innerHTML = shownItems + " Items";
   }
 
-  listen(addButton, "click", addButtonOnClick);
   listen(todoesDiv, "click", todoesDivOnClick);
-  listen(input, "keyup", inputEnter);
   listen(filtersDiv, "click", filtersDivOnClick);
+  
+  bus.listen("newTodo", refreshTodoesList);
 }
-
-
-document.addEventListener("DOMContentLoaded", main);

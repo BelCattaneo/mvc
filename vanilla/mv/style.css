@@ -1,0 +1,47 @@
+body {
+  font-family: arial;
+  font-size: 80%;
+}
+
+.done {
+  text-decoration: line-through;
+  color: gray;
+  font-style: italic;
+}
+
+#filters {
+  margin-top: 5px;
+}
+
+#todoes {
+  height: 300px;
+  overflow: auto;
+}
+
+.selected-filter {
+  background-color: white;
+  color: red;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+#no-items-message {
+  margin-top: 5px;
+}
+
+.cruz {
+  color: dimgrey;
+  background-color: gainsboro;
+  font-weight: bold;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-bottom: 2px;
+  margin-left: 5px;
+}
+
+.todo-item{
+  margin-top: 5px;
+}

@@ -1,0 +1,27 @@
+
+<html>
+  <head>
+    <script src="./dom.js"></script>
+    <script src="./bus.js"></script>
+    <script src="./addTodoView.js"></script>
+    <script src="./todoListView.js"></script>
+    <script src="./main.js"></script>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <div id="new-todo">
+      <input id="todo-text" type="text" placeholder="Add a Todo item">
+      <button id="add" type="button">+</button>
+    </div>
+    <div id="filters">
+      <button id="done-filter" type="button">Done</button>
+      <button id="undone-filter" type="button">Undone</button>
+      <button id="all-filter" type="button">All</button>
+    </div>
+    <div id="no-items-message" class="hidden">
+      <span>There are no items for the selected filter</span>
+    </div>
+    <div id="todoes"></div>
+    <div id="item-count"><a></a></div>
+  </body>
+</html>
