@@ -30,6 +30,7 @@ function $(id){
   return document.getElementById(id);
 }  
 
+
 function main(){
   const addButton = $("add");
   const todoesDiv = $("todoes");
@@ -105,27 +106,16 @@ function main(){
   }
 
   function filterClick(filterId){
-    switch (filterId) {
-      case "done-filter":
-      doneFilter();
-      break;
-      
-      case "undone-filter":
-      undoneFilter();
-      break;
-      
-      case "all-filter":
-      allFilter();
-      break;
-    }
+    selectedFilter = filterId;
+    applyFilter(filterId.split("-")[0]);
   }
-
+  
   function hideTodoes(){
     for (var a = 0; a < todoesDiv.children.length; a++) {
       addClass(todoesDiv.children[a], "hidden");
     }
   }
-
+  
   function showTodoes(filterId){
     if (filterId === "all") {
       const allTodoes = todoesDiv.children;
@@ -140,25 +130,11 @@ function main(){
       }
     }
   }
-
-  function doneFilter(){
-    selectedFilter = "done-filter";
-    hideTodoes();
-    showTodoes("done");
-    shownItemsCount("done");
-  }
   
-  function undoneFilter(){
-    selectedFilter = "undone-filter";
+  function applyFilter(todoStatus){
     hideTodoes();
-    showTodoes("undone");
-    shownItemsCount("undone");
-  }
-  
-  function allFilter(){
-    selectedFilter = "all-filter"
-    showTodoes("all");
-    shownItemsCount("all");
+    showTodoes(todoStatus);
+    shownItemsCount(todoStatus);
   }
 
   function refreshFilter(){
