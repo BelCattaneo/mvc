@@ -1,5 +1,6 @@
 body {
   font-family: arial;
+  font-size: 80%;
 }
 
 .done {
@@ -24,4 +25,8 @@ body {
 
 .hidden {
   display: none;
+}
+
+#no-items-message {
+  margin-top: 5px;
 }
