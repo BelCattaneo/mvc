@@ -1,0 +1,25 @@
+{
+  "name": "mvc",
+  "version": "1.0.0",
+  "description": "Several examples of an MVC app in different approaches",
+  "main": "index.js",
+  "dependencies": {
+    "backbone": "^1.3.3",
+    "jquery": "^3.3.1",
+    "vue": "^2.5.13"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BelCattaneo/mvc.git"
+  },
+  "author": "Belen Cattaneo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BelCattaneo/mvc/issues"
+  },
+  "homepage": "https://github.com/BelCattaneo/mvc#readme"
+}
